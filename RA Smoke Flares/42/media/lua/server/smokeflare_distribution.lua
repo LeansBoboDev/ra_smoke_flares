@@ -6,13 +6,18 @@ if getSandboxOptions():getOptionByName("SmokeFlare.EnableGunStoreSpawn"):getValu
         getSandboxOptions():getOptionByName("SmokeFlare.GunStoreSpawnChance"):getValue());
 end
 
--- Zombies
+-- Zombies (police outfits only)
 if getSandboxOptions():getOptionByName("SmokeFlare.EnableZombieSpawn"):getValue() then
-    table.insert(SuburbsDistributions["all"]["inventorymale"].items, "Base.SmokeFlare");
-    table.insert(SuburbsDistributions["all"]["inventorymale"].items,
-        getSandboxOptions():getOptionByName("SmokeFlare.ZombieSpawnChance"):getValue());
+    local chance = getSandboxOptions():getOptionByName("SmokeFlare.ZombieSpawnChance"):getValue();
+    local policeOutfits = {
+        "Outfit_Police", "Outfit_PoliceState", "Outfit_Detective",
+        "Outfit_ArmyCamoDesert", "Outfit_ArmyCamoGreen", "Outfit_PrivateMilitia", "Outfit_Ranger",
+    };
 
-    table.insert(SuburbsDistributions["all"]["inventoryfemale"].items, "Base.SmokeFlare");
-    table.insert(SuburbsDistributions["all"]["inventoryfemale"].items,
-        getSandboxOptions():getOptionByName("SmokeFlare.ZombieSpawnChance"):getValue());
+    for _, outfit in ipairs(policeOutfits) do
+        if SuburbsDistributions["all"][outfit] then
+            table.insert(SuburbsDistributions["all"][outfit].items, "Base.SmokeFlare");
+            table.insert(SuburbsDistributions["all"][outfit].items, chance);
+        end
+    end
 end
